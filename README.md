@@ -10,8 +10,9 @@ committed here.
 ## Current status
 
 Experimental proving ground. The local encoder and browser reader are working,
-but automated publication and recipient-device verification are not yet enabled.
-Treat both the repository and its Pages output as public.
+including project-site prefix mapping. Automated publication and
+recipient-device verification are not yet enabled. Treat both the repository
+and its Pages output as public.
 
 ## Initial Pages configuration
 
@@ -37,10 +38,9 @@ https://matthewjosephtaylor.github.io/mjt-shares/
 
 That `/mjt-shares/` prefix is an HTTP deployment detail, not part of an encrypted
 object's canonical identity. The browser transport must map canonical
-`/share-data/v1/...` paths beneath the project-site base. The current loopback
-reader assumes an origin-root deployment, so public publication stays disabled
-until this prefix mapping is implemented and exercised through the real Pages
-URL.
+`/share-data/v1/...` paths beneath the project-site base. That mapping is
+implemented and covered by the reader's transport tests; its first proof through
+the real Pages URL is still pending.
 
 ## Published layout
 
@@ -59,6 +59,9 @@ share-data/v1/
 The reader code and encrypted objects are released independently. Compatible
 reader fixes stay under `share/v1/`; an incompatible protocol requires a new
 versioned path.
+
+`share/v1/index.html` is generated from the Think workspace reader at commit
+`d8a565a3`; do not hand-edit it.
 
 ## Security and retention
 
