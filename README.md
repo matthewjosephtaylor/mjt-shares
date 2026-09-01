@@ -9,10 +9,9 @@ committed here.
 
 ## Current status
 
-Experimental proving ground. The local encoder and browser reader are working,
-including project-site prefix mapping. Automated publication and
-recipient-device verification are not yet enabled. Treat both the repository
-and its Pages output as public.
+Operational proving ground. Automated immutable-data publication is active, and
+the first real GitHub Pages deployment has been checked through the browser
+consumer path. Treat both the repository and its Pages output as public.
 
 ## Initial Pages configuration
 
@@ -37,10 +36,9 @@ https://matthewjosephtaylor.github.io/mjt-shares/
 ```
 
 That `/mjt-shares/` prefix is an HTTP deployment detail, not part of an encrypted
-object's canonical identity. The browser transport must map canonical
-`/share-data/v1/...` paths beneath the project-site base. That mapping is
-implemented and covered by the reader's transport tests; its first proof through
-the real Pages URL is still pending.
+object's canonical identity. Browser transports map canonical
+`/share-data/v1/...` paths beneath the project-site base. Unit tests and the
+first real Pages publication verify that mapping.
 
 ## Published layout
 
@@ -48,7 +46,7 @@ the real Pages URL is still pending.
 .nojekyll
 
 share/v1/
-  index.html                         versioned reader shell
+  index.html                         current chat presentation shell
 
 share-data/v1/
   <shard>/<storage-index>/
@@ -56,12 +54,20 @@ share-data/v1/
     objects/...                     immutable encrypted objects
 ```
 
-The reader code and encrypted objects are released independently. Compatible
-reader fixes stay under `share/v1/`; an incompatible protocol requires a new
-versioned path.
+Presentation code and encrypted objects are released independently. The
+encrypted asset tree is presentation-neutral: `share/v1/` is the first chat
+presentation shell, not a universal chat-shaped storage contract. Future static
+pages, games, media viewers, and other presentation layers may use their own
+versioned shells while reusing the same asset loader and `/share-data/v1/`
+objects.
 
-`share/v1/index.html` is generated from the Think workspace reader at commit
-`d8a565a3`; do not hand-edit it.
+Compatible chat-reader fixes stay under `share/v1/`; an incompatible reader or
+protocol gets a new versioned path. `share/v1/index.html` is generated from the
+Think workspace reader at commit `bb8c7c0e`; do not hand-edit it.
+
+GitHub Pages may content-encode `.bin` responses. Browser readers therefore
+bound the decoded stream rather than comparing an encoded HTTP
+`Content-Length` to the authenticated decoded-object limit.
 
 ## Security and retention
 
@@ -81,11 +87,12 @@ versioned path.
 2. Add only its immutable ciphertext paths in one focused commit.
 3. Never overwrite an existing publication path or force-push `master`.
 4. Preserve unrelated repository work.
-5. Do not return a share URL until the exact Pages deployment and real HTTPS
-   reader path have been verified.
+5. A copied link may be available after Git accepts the commit, but the UI must
+   call it **Deploying**, not **Live**, until the exact Pages reader and encrypted
+   objects verify through HTTPS.
 
-Until the publisher is implemented, all repository and Pages changes remain
-manual and deliberate.
+Reader releases remain deliberate code releases; encrypted object publication
+is automated and create-only.
 
 ## GitHub Pages documentation
 
