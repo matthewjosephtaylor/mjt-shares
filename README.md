@@ -47,6 +47,7 @@ first real Pages publication verify that mapping.
 
 share/v1/
   index.html                         current chat presentation shell
+  social-card-v1.jpg                 generic encrypted-share social preview
 
 share-data/v1/
   <shard>/<storage-index>/
@@ -62,8 +63,14 @@ versioned shells while reusing the same asset loader and `/share-data/v1/`
 objects.
 
 Compatible chat-reader fixes stay under `share/v1/`; an incompatible reader or
-protocol gets a new versioned path. `share/v1/index.html` is generated from the
-Think workspace reader at commit `bb8c7c0e`; do not hand-edit it.
+protocol gets a new versioned path. `share/v1/index.html` and its social card are
+generated from the Think workspace reader at commit `6cedd1f1`; do not hand-edit
+them.
+
+The crawler-facing title, description, and image are deliberately generic.
+URL fragments never reach the HTTP server, so social previews disclose no
+share-specific title or decrypted content. The versioned JPEG URL also avoids
+stale social-image caches when a future card replaces it.
 
 GitHub Pages may content-encode `.bin` responses. Browser readers therefore
 bound the decoded stream rather than comparing an encoded HTTP
